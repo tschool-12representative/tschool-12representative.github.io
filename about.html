@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>關於我們｜三年級學生代表</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html">
+      <div class="brand">
+        <img src="logo.png" class="logo" alt="三年級學生代表" />
+      </div>
+      </a>
+      <nav class="site-nav">
+        <a href="index.html">首頁</a>
+        <a href="javascript:void(0)">關於我們</a>
+        <a href="https://tschool.tp.edu.tw" target="_blank">關於臺北市數位實驗高中</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h2 class="section-title"><img src="symbol.webp" alt="我們是誰？" />我們是誰？</h2>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title"><img src="symbol.webp" alt="關於余兆宜！" />關於余兆宜！</h2>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title"><img src="symbol.webp" alt="關於毛宇禾！" />關於毛宇禾！</h2>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-brand">
+        <img src="logo.png" class="logo" alt="三年級學生代表" />
+    </div>
+  </footer>
+
+  <!-- News Modal -->
+  <div class="modal-overlay" id="newsModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="關閉">&times;</button>
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <div class="modal-meta" id="modalMeta"></div>
+      <div class="modal-thumb"></div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var overlay = document.getElementById("newsModal");
+      var modalTitle = document.getElementById("modalTitle");
+      var modalMeta = document.getElementById("modalMeta");
+      var modalBody = document.getElementById("modalBody");
+      var modalClose = document.getElementById("modalClose");
+
+      function openModal(item) {
+        var title = item.querySelector(".news-title");
+        var meta = item.querySelector(".news-meta");
+        var detail = item.querySelector(".news-detail");
+        modalTitle.textContent = title ? title.textContent : "";
+        modalMeta.textContent = meta ? meta.textContent : "";
+        modalBody.innerHTML = detail ? detail.innerHTML : "";
+        overlay.hidden = false;
+        modalClose.focus();
+      }
+
+      function closeModal() {
+        overlay.hidden = true;
+        document.body.style.overflow = "";
+      }
+
+      document.querySelectorAll(".news-item").forEach(function (item) {
+        item.addEventListener("click", function () {
+          openModal(item);
+        });
+        item.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openModal(item);
+          }
+        });
+      });
+
+      modalClose.addEventListener("click", closeModal);
+      overlay.addEventListener("click", function (e) {
+        if (e.target === overlay) closeModal();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !overlay.hidden) closeModal();
+      });
+    })();
+  </script>
+</body>
+</html>

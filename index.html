@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>首頁｜三年級學生代表</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html">
+      <div class="brand">
+        <img src="logo.png" class="logo" alt="三年級學生代表" />
+      </div>
+      </a>
+      <nav class="site-nav">
+        <a href="javascript:void(0)">首頁</a>
+        <a href="javascript:alert('目前尚在開發中')">關於我們</a>
+        <a href="https://tschool.tp.edu.tw" target="_blank">關於臺北市數位實驗高中</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Latest News -->
+    <section class="section">
+      <h2 class="section-title"><img src="symbol.webp" alt="最新消息" />最新消息</h2>
+
+      <!-- 讀取中提示 -->
+      <div id="news-loading" class="news-loading">載入最新消息中…</div>
+
+      <!-- 自動由 Google Sheet 產生的消息會插入這裡 -->
+      <div id="news-list"></div>
+    </section>
+
+    <!-- Our Work -->
+    <section class="section">
+      <h2 class="section-title"><img src="symbol.webp" alt="我們的工作" />我們的工作！</h2>
+      <div class="work-buttons">
+        <a href="javascript:alert('目前尚在開發中')" class="work-btn">最新校務會議資訊</a>
+        <a href="javascript:alert('目前尚在開發中')" class="work-btn">提案進度儀表板</a>
+        <a href="javascript:alert('目前尚在開發中')" class="work-btn">我也來提案！</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-brand">
+        <img src="logo.png" class="logo" alt="三年級學生代表" />
+    </div>
+  </footer>
+
+  <!-- News Modal -->
+  <div class="modal-overlay" id="newsModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="關閉">&times;</button>
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <div class="modal-meta" id="modalMeta"></div>
+      <div class="modal-image" id="modalImage"></div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // ==========================================
+      // ⚙️ 設定：把下面換成你「已發布到網路」的 Google Sheet CSV 連結
+      //    Google Sheet → 檔案 → 共用 → 發布到網路 → 選 CSV 格式 → 複製連結
+      //    （沿用你範例程式的做法，網址後面加時間戳避免快取）
+      // ==========================================
+      var NEWS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTipTPhX-Js-ImT0AA8gqJdJVok748opvaATypGt8VgJIyL50yec4wJOprd2J3VeOh5X4duCh9e-rVu/pub?output=csv";
+
+      var newsList = document.getElementById("news-list");
+      var newsLoading = document.getElementById("news-loading");
+
+      // ---- Modal 相關（沿用原本的彈窗邏輯） ----
+      var overlay = document.getElementById("newsModal");
+      var modalTitle = document.getElementById("modalTitle");
+      var modalMeta = document.getElementById("modalMeta");
+      var modalImage = document.getElementById("modalImage");
+      var modalBody = document.getElementById("modalBody");
+      var modalClose = document.getElementById("modalClose");
+
+      function openModal(item) {
+        var title = item.querySelector(".news-title");
+        var meta = item.querySelector(".news-meta");
+        var detail = item.querySelector(".news-detail");
+        var image = item.getAttribute("data-image");
+
+        modalTitle.textContent = title ? title.textContent : "";
+        modalMeta.textContent = meta ? meta.textContent : "";
+        modalBody.innerHTML = detail ? detail.innerHTML : "";
+
+        // 彈窗圖片：有連結才顯示，否則清空並隱藏
+        if (image) {
+          modalImage.innerHTML =
+            '<img src="' + image + '" alt="" ' +
+            'onerror="this.parentNode.style.display=&quot;none&quot;">';
+          modalImage.style.display = "";
+        } else {
+          modalImage.innerHTML = "";
+          modalImage.style.display = "none";
+        }
+
+        overlay.hidden = false;
+        modalClose.focus();
+      }
+
+      function closeModal() {
+        overlay.hidden = true;
+        document.body.style.overflow = "";
+      }
+
+      modalClose.addEventListener("click", closeModal);
+      overlay.addEventListener("click", function (e) {
+        if (e.target === overlay) closeModal();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !overlay.hidden) closeModal();
+      });
+
+      // ==========================================
+      // CSV 解析工具（沿用範例，支援中英文標題模糊對應）
+      // ==========================================
+      function parseCSV(csvText) {
+        csvText = csvText.replace(/^﻿/, "").trim();
+        if (!csvText) return [];
+
+        var rows = [];
+        var currentRow = [];
+        var currentCell = "";
+        var inQuote = false;
+
+        for (var i = 0; i < csvText.length; i++) {
+          var char = csvText[i];
+          var nextChar = csvText[i + 1];
+          if (char === '"') {
+            if (inQuote && nextChar === '"') { currentCell += '"'; i++; }
+            else { inQuote = !inQuote; }
+          } else if (char === "," && !inQuote) {
+            currentRow.push(currentCell); currentCell = "";
+          } else if ((char === "\r" || char === "\n") && !inQuote) {
+            if (char === "\r" && nextChar === "\n") { i++; }
+            currentRow.push(currentCell); rows.push(currentRow);
+            currentRow = []; currentCell = "";
+          } else { currentCell += char; }
+        }
+        if (currentCell || currentRow.length > 0) {
+          currentRow.push(currentCell); rows.push(currentRow);
+        }
+
+        // 找標頭列
+        var headerLineIdx = -1;
+        var headers = [];
+        for (var r = 0; r < Math.min(rows.length, 15); r++) {
+          var row = rows[r].map(function (h) { return h.trim().toLowerCase(); });
+          if (row.some(function (h) {
+            return h.indexOf("title") > -1 || h.indexOf("name") > -1 ||
+                   h.indexOf("標題") > -1 || h.indexOf("日期") > -1;
+          })) { headerLineIdx = r; headers = row; break; }
+        }
+        if (headerLineIdx === -1) return [];
+
+        var data = [];
+        for (var k = headerLineIdx + 1; k < rows.length; k++) {
+          var rw = rows[k];
+          if (rw.join("").trim() === "") continue;
+
+          var obj = {};
+          headers.forEach(function (h, index) {
+            obj[h] = rw[index] ? rw[index].trim() : "";
+          });
+
+          var findVal = function (keywords) {
+            var targetKey = Object.keys(obj).find(function (key) {
+              return keywords.some(function (kw) { return key.indexOf(kw) > -1; });
+            });
+            return targetKey ? obj[targetKey] : "";
+          };
+
+          var finalObj = {
+            title:   findVal(["title", "標題", "名稱"]),
+            date:    findVal(["date", "日期"]),
+            author:  findVal(["author", "發布者", "單位"]),
+            content: findVal(["content", "內文", "內容"]),
+            link:    findVal(["link", "url", "網址", "連結", "更多資訊"]),
+            image:   findVal(["image", "img", "圖片", "照片", "相片"])
+          };
+
+          // 防呆：略過空白列或誤把英文標頭當資料的列
+          if (finalObj.title === "title" || !finalObj.title) continue;
+
+          data.push(finalObj);
+        }
+        return data;
+      }
+
+      // ==========================================
+      // 渲染最新消息（照原本 news-card / news-item 結構）
+      // ==========================================
+      function renderNews(items) {
+        newsList.innerHTML = "";
+
+        if (!items.length) {
+          newsList.innerHTML = '<p style="text-align:center; color:#666;">目前沒有最新消息。</p>';
+          return;
+        }
+
+        items.forEach(function (item) {
+          var card = document.createElement("div");
+          card.className = "news-card";
+
+          var metaText = item.date + (item.author ? " ・ " + item.author : "");
+
+          // 內文換行處理；若有連結則附在詳細內容底部
+          var bodyHtml = (item.content || "").replace(/\n/g, "<br>");
+          if (item.link) {
+            bodyHtml += '<p style="margin-top:12px;"><a href="' + item.link +
+                        '" target="_blank" rel="noopener">更多資訊 →</a></p>';
+          }
+
+          card.innerHTML =
+            '<article class="news-item" tabindex="0" role="button" aria-haspopup="dialog">' +
+              '<div class="news-text">' +
+                '<div class="news-title"></div>' +
+                '<div class="news-meta"></div>' +
+              '</div>' +
+              '<div class="news-image"></div>' +
+              '<div class="news-detail" hidden></div>' +
+            '</article>';
+
+          // 用 textContent 填標題/meta 避免 XSS；內文用 innerHTML 以支援換行與連結
+          card.querySelector(".news-title").textContent = item.title;
+          card.querySelector(".news-meta").textContent = metaText;
+          card.querySelector(".news-detail").innerHTML = bodyHtml;
+
+          var article = card.querySelector(".news-item");
+
+          // 圖片：把連結存在 data-image 供彈窗使用；卡片縮圖用背景圖顯示
+          if (item.image) {
+            article.setAttribute("data-image", item.image);
+            var thumb = card.querySelector(".news-image");
+            thumb.style.backgroundImage = "url('" + item.image + "')";
+            thumb.style.backgroundSize = "cover";
+            thumb.style.backgroundPosition = "center";
+          }
+
+          article.addEventListener("click", function () { openModal(article); });
+          article.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openModal(article); }
+          });
+
+          newsList.appendChild(card);
+        });
+      }
+
+      // ==========================================
+      // 抓取 Google Sheet 資料
+      // ==========================================
+      function loadNews() {
+        var url = NEWS_CSV_URL +
+          (NEWS_CSV_URL.indexOf("?") > -1 ? "&" : "?") + "t=" + Date.now();
+
+        fetch(url)
+          .then(function (res) { return res.text(); })
+          .then(function (csv) {
+            var items = parseCSV(csv);
+            if (newsLoading) newsLoading.style.display = "none";
+            renderNews(items);
+          })
+          .catch(function (err) {
+            console.error("讀取最新消息失敗：", err);
+            if (newsLoading) newsLoading.style.display = "none";
+            newsList.innerHTML =
+              '<p class="news-failed">最新消息載入失敗，請稍後再試。</p>';
+          });
+      }
+
+      loadNews();
+    })();
+  </script>
+</body>
+</html>
