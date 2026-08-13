@@ -100,7 +100,7 @@
       // 頁籤
       var btn = document.createElement("button");
       btn.className = "tab-btn" + (i === 0 ? " active" : "");
-      btn.textContent = "第 " + (m.id || (i + 1)) + " 次";
+      btn.textContent = m.id;
       btn.setAttribute("data-idx", i);
       btn.addEventListener("click", function () { switchTab(i); });
       tabsEl.appendChild(btn);
