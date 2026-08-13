@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>關於我們｜三年級學生代表</title>
+  <title>提案進度儀表板｜三年級學生代表</title>
   <link rel="stylesheet" href="style/style.css" />
   <link rel="stylesheet" href="style/pages.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
@@ -18,7 +18,7 @@
       </a>
       <nav class="site-nav">
         <a href="index.html">首頁</a>
-        <a href="javascript:void(0)" class="active">關於我們</a>
+        <a href="about.html">關於我們</a>
         <a href="https://tschool.tp.edu.tw" target="_blank">關於臺北市數位實驗高中</a>
       </nav>
     </div>
@@ -26,12 +26,19 @@
 
   <main class="container">
     <div class="page-hero">
-      <h1>關於我們</h1>
-      <p>臺北市數位實驗高級中等學校三年級學生代表。下方是我們的簡歷、政見與進度，以及各種聯絡方式。歡迎隨時與我們聯繫。</p>
+      <h1>提案進度儀表板</h1>
+      <p>追蹤每一項提案從草擬到完結的進度。每張卡片標示類別與類型，並以進度條呈現目前所處階段。可用下方按鈕依類別篩選。</p>
     </div>
 
-    <div id="repArea">
-      <div class="state-loading" id="repLoading">載入代表資訊中…</div>
+    <!-- 進度統計摘要 -->
+    <div class="dash-summary" id="dashSummary"></div>
+
+    <!-- 類別篩選 -->
+    <div class="filter-row" id="filterRow"></div>
+
+    <!-- 提案卡片 -->
+    <div id="dashArea">
+      <div class="state-loading" id="dashLoading">載入提案進度中…</div>
     </div>
   </main>
 
@@ -42,6 +49,6 @@
   </footer>
 
   <script src="scripts/common.js"></script>
-  <script src="scripts/about.js"></script>
+  <script src="scripts/dashboard.js"></script>
 </body>
 </html>

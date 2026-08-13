@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>關於我們｜三年級學生代表</title>
+  <title>校務會議資訊｜三年級學生代表</title>
   <link rel="stylesheet" href="style/style.css" />
   <link rel="stylesheet" href="style/pages.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
+  <!-- Header -->
   <header class="site-header">
     <div class="header-inner">
       <a href="index.html">
@@ -18,7 +19,7 @@
       </a>
       <nav class="site-nav">
         <a href="index.html">首頁</a>
-        <a href="javascript:void(0)" class="active">關於我們</a>
+        <a href="about.html">關於我們</a>
         <a href="https://tschool.tp.edu.tw" target="_blank">關於臺北市數位實驗高中</a>
       </nav>
     </div>
@@ -26,15 +27,20 @@
 
   <main class="container">
     <div class="page-hero">
-      <h1>關於我們</h1>
-      <p>臺北市數位實驗高級中等學校三年級學生代表。下方是我們的簡歷、政見與進度，以及各種聯絡方式。歡迎隨時與我們聯繫。</p>
+      <h1>校務會議資訊</h1>
+      <p>歷次校務會議的日期、與會學生代表、提案與報告統計、提案細節與通過比例，以及會議記錄連結。點選上方頁籤切換不同次會議。</p>
     </div>
 
-    <div id="repArea">
-      <div class="state-loading" id="repLoading">載入代表資訊中…</div>
+    <!-- 分頁頁籤（自動生成） -->
+    <div class="tabs" id="meetingTabs"></div>
+
+    <!-- 各次會議面板（自動生成） -->
+    <div id="meetingPanels">
+      <div class="state-loading" id="meetingsLoading">載入校務會議資訊中…</div>
     </div>
   </main>
 
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-brand">
       <img src="logo.png" class="logo" alt="三年級學生代表" />
@@ -42,6 +48,6 @@
   </footer>
 
   <script src="scripts/common.js"></script>
-  <script src="scripts/about.js"></script>
+  <script src="scripts/meetings.js"></script>
 </body>
 </html>
