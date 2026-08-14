@@ -22,8 +22,7 @@
       photo: "https://tschool-12representative.github.io/images/余兆宜.png", // 填大頭貼網址；留空則顯示姓名首字
       bio: "文字",
       links: [
-        { type: "email", label: "Email", url: "mailto:example@tschool.tp.edu.tw" },
-        { type: "instagram", label: "Instagram", url: "https://instagram.com/" },
+        { type: "email", label: "Email", url: "mailto:11330211@tschool.tp.edu.tw" },
       ],
       pledges: [
         { title: "測試政見", desc: "測試內容", status: "exec" },
@@ -37,10 +36,8 @@
       name: "毛宇禾",
       role: "三年級學生代表",
       photo: "https://tschool-12representative.github.io/images/毛宇禾.png",
-      bio: "現任「新北市第 13 屆兒童及少年代表」與「第三屆畢業籌備委員會總召」。",
       links: [
         { type: "email", label: "Email", url: "mailto:11330210@tschool.tp.edu.tw" },
-        { type: "discord", label: "Discord", url: "https://discordapp.com/users/907971087650922526" },
         { type: "website", label: "個人網站", url: "https://jimmymao330.github.io" },
       ],
       pledges: [
