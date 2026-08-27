@@ -36,7 +36,7 @@ window.PLEDGE_STATUS = {
 window.CATEGORY = {
   "學權":  "var(--cat-rights)",
   "課務":  "var(--cat-academic)",
-  "成績":  "var(--cat-score)",
+  "成績":  "var(--cat-grade)",
   "生活":  "var(--cat-life)",
   "設備":  "var(--cat-facility)",
   "其他":  "var(--cat-other)",
@@ -51,7 +51,7 @@ window.normalizeStatus = function (raw) {
     "討論": "discuss", "discuss": "discuss",
     "提案": "propose", "propose": "propose",
     "審議": "review", "review": "review",
-    "執行": "exec", "exec": "exec",
+    "執行": "exec","進行": "exec", "exec": "exec",
     "完結": "done", "完成": "done", "done": "done",
     "取消": "cancel", "cancel": "cancel",
     "失敗": "fail", "fail": "fail",
