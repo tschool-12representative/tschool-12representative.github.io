@@ -28,17 +28,25 @@ body {
     background-attachment: fixed;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 /* ---------- Header ---------- */
 .site-header {
-    padding: 28px 0;
+    padding: 24px 0;
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 20px;
     background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* 相容 Safari 瀏覽器 */
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 12px rgba(120, 140, 160, 0.15);
 }
 
 .header-inner {
