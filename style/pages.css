@@ -86,10 +86,10 @@ h1 img {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: #fff;
-  padding: 4px 12px;
+  padding: 3px 11px;
   border-radius: 999px;
   white-space: nowrap;
   line-height: 1.4;
