@@ -192,7 +192,6 @@ body {
 .news-image {
     width: 200px;
     height:70px;
-    background: var(--placeholder);
     border-radius: 12px;
     flex-shrink: 0;
 }
