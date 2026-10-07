@@ -30,7 +30,8 @@
   --cat-academic: #9ecb8f; /* 課務 */
   --cat-grade:    #cb8f8f; /* 成績 */
   --cat-life:     #f0c674; /* 生活 */
-  --cat-facility: #b79ce0; /* 設備 */
+  --cat-facility: #9e8d7c; /* 設備 */
+  --cat-su: #b79ce0; /* 學生會 */
   --cat-other:    #c2cad0; /* 其他 */
 }
 

@@ -39,6 +39,7 @@ window.CATEGORY = {
   "成績":  "var(--cat-grade)",
   "生活":  "var(--cat-life)",
   "設備":  "var(--cat-facility)",
+  "學生會":  "var(--cat-su)",
   "其他":  "var(--cat-other)",
 };
 
