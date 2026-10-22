@@ -477,6 +477,11 @@ h1 img {
 .pledge .pl-text { font-size: 14px; line-height: 1.6; color: var(--text-main); }
 .pledge .pl-text b { font-weight: 700; color: #555; display:block; margin-bottom: 2px; }
 
+@media (max-width: 720px) {
+  .pledge-list { display: none; }
+  .subhead {display: none;}
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 720px) {
   .charts-row { grid-template-columns: 1fr; }
