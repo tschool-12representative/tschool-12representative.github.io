@@ -38,8 +38,8 @@
 /* ---------- 共用：頁面標頭區塊 ---------- */
 .page-hero {
   padding-top: 36px;
-  padding-bottom: 36px;
-  margin-bottom: 28px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
