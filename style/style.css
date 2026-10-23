@@ -18,30 +18,63 @@
 
 html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%; /* 避免 iOS 橫向時自動放大字體 */
+    text-size-adjust: 100%;
 }
 
 body {
     font-family: 'GenSenRounded2 TW', "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", -apple-system, "Segoe UI", sans-serif;
     color: var(--text-main);
+    line-height: 1.6;            /* 中文內文較舒適的基準行距 */
     min-height: 100vh;
+    min-height: 100dvh;          /* 手機瀏覽器網址列伸縮時高度正確 */
     background: linear-gradient(-200deg, #b5d4ea 0%, #ffffff 45%, #cbe7c8 100%);
     background-attachment: fixed;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    overflow-x: clip;            /* 不產生捲動容器，sticky header 才能正常運作 */
+    overflow-wrap: break-word;   /* 長網址、長英文字不撐破版面 */
+    -webkit-tap-highlight-color: transparent;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* 標題類：行距稍緊，並平均分配每行字數 */
+h1, h2, h3,
+.section-title,
+.news-title,
+.modal-title {
+    line-height: 1.4;
+    text-wrap: balance;
+}
+
+/* 段落類：避免最後一行只剩一兩個字 */
+p,
+.modal-body,
+.page-hero p {
+    text-wrap: pretty;
+}
+
+/* 觸控裝置點擊不延遲 */
+a, button, [role="button"] {
+    touch-action: manipulation;
 }
 
 /* ---------- Header ---------- */
+/* 改用 sticky：header 佔有自己的版面高度，不論選單換成幾行，
+   都不會再遮擋下方內容（原本 fixed + container top:120px 的寫法，
+   在手機選單換行時 header 會變高而蓋住文字） */
 .site-header {
     padding: 24px 0;
-    margin: 0 auto;
     background: var(--card-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px); /* 相容 Safari 瀏覽器 */
-    position: fixed;
+    position: -webkit-sticky;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
     z-index: 1000;
     box-shadow: 0 4px 12px rgba(120, 140, 160, 0.15);
 }
@@ -50,10 +83,17 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    gap: 12px 24px;
     flex-wrap: wrap;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 32px;
+}
+
+.header-inner > a {
+    display: block;
+    flex-shrink: 0;
+    border-radius: 12px;
 }
 
 .brand {
@@ -64,6 +104,8 @@ body {
 
 .logo {
     height: 56px;
+    width: auto;
+    display: block;
 }
 
 .logo-box {
@@ -96,7 +138,8 @@ body {
 
 .site-nav {
     display: flex;
-    gap: 28px;
+    align-items: center;
+    gap: 4px 28px;
     flex-wrap: wrap;
 }
 
@@ -104,19 +147,37 @@ body {
     color: var(--text-main);
     text-decoration: none;
     font-size: 15px;
+    line-height: 1.5;
+    padding: 4px 0;              /* 擴大點擊範圍，不改變視覺 */
+    white-space: nowrap;         /* 選單文字不在中間斷行 */
     opacity: 0.85;
+    border-radius: 6px;
     transition: opacity 0.2s ease;
 }
 
-.site-nav a:hover {
+.site-nav a:hover,
+.site-nav a:focus-visible {
     opacity: 1;
 }
+
+/* 鍵盤操作時的焦點框（共用） */
+.site-nav a:focus-visible,
+.header-inner > a:focus-visible,
+.work-btn:focus-visible,
+.modal-close:focus-visible,
+.modal-link a:focus-visible {
+    outline: 2px solid #8fbfe0;
+    outline-offset: 3px;
+}
+
 /* ---------- Main Container ----------- */
+/* header 改為 sticky 後，不再需要 top:120px 往下推；
+   padding-top 16px 保留原本 header 與內容之間的距離 */
 .container {
-    position: relative;
-    top: 120px;
-    margin: 0;
-    padding: 0 32px;
+    width: 100%;
+    max-width: 1400px;           /* 超寬螢幕時內容不會無限拉長 */
+    margin: 0 auto;
+    padding: 16px 32px 0;
 }
 /* ---------- Section heading ---------- */
 .section {
@@ -158,10 +219,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;              /* 標題很長時與縮圖保持距離 */
     padding: 16px 0;        /* 用 padding 取代固定高度 */
     border-bottom: 1px solid rgba(255, 255, 255, 0.6);
     cursor: pointer;
     outline: none;
+}
+
+.news-text {
+    flex: 1;
+    min-width: 0;           /* 讓長標題能正確換行，不把縮圖擠出去 */
 }
 
 .news-item:focus-visible {
@@ -218,6 +285,9 @@ body {
 }
 
 .work-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: var(--btn-bg);
     border-radius: 14px;
     padding: 26px 20px;
@@ -226,6 +296,7 @@ body {
     color: var(--text-main);
     font-size: 16px;
     font-weight: 600;
+    line-height: 1.4;
     box-shadow: 0 6px 18px rgba(120, 140, 160, 0.15);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -233,6 +304,22 @@ body {
 .work-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 24px rgba(120, 140, 160, 0.22);
+}
+
+/* 觸控裝置沒有 hover：按下時給回饋，取代「點完卡在浮起狀態」 */
+@media (hover: none) {
+    .news-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    .work-btn:hover {
+        transform: none;
+        box-shadow: 0 6px 18px rgba(120, 140, 160, 0.15);
+    }
+    .news-card:active,
+    .work-btn:active {
+        transform: scale(0.98);
+    }
 }
 
 /* ---------- Footer ---------- */
@@ -262,27 +349,7 @@ body {
 }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 720px) {
-    .work-buttons {
-    grid-template-columns: 1fr;
-    }
-    .news-item {
-    flex-direction: column;
-    align-items: flex-start;
-    }
-    .news-image {
-    width: 100%;
-    height: 140px;
-    display: none;
-    }
-    .header-inner {
-    justify-content: center;
-    text-align: center;
-    }
-    .news-meta {
-        margin-bottom: 10px;
-    }
-}
+/* 斷點統一整理在檔案最底部（需覆蓋 Modal 樣式） */
 
 /* ---------- News Modal ---------- */
 .modal-overlay {
@@ -317,7 +384,10 @@ body {
     width: 100%;
     max-width: 560px;
     max-height: 85vh;
+    max-height: 85dvh;
     overflow-y: auto;
+    overscroll-behavior: contain;   /* 捲到底時不帶動背後頁面 */
+    -webkit-overflow-scrolling: touch;
     box-shadow: 0 20px 60px rgba(90, 110, 130, 0.3);
     animation: modalIn 0.22s ease;
 }
@@ -395,4 +465,177 @@ body {
 
 .modal-link a {
     color: #4a90e2;
+}
+
+/* ============================================================
+   Responsive（RWD）
+   斷點：1024 平板橫向 / 960 平板直向 / 720 手機 / 420 小手機
+   ============================================================ */
+
+/* 平板：選單間距縮小，盡量維持 logo 與選單同一列 */
+@media (max-width: 1024px) {
+    .site-nav {
+        gap: 4px 20px;
+    }
+}
+
+/* 平板直向：工作按鈕改 2 欄，4 顆按鈕排成 2×2 */
+@media (max-width: 960px) {
+    .work-buttons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 手機 */
+@media (max-width: 720px) {
+    /* Header：logo 與選單上下排列並完整置中 */
+    .site-header {
+        padding: 12px 0 10px;
+    }
+    .header-inner {
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 16px;
+        text-align: center;
+    }
+    .logo {
+        height: 44px;
+    }
+    .site-nav {
+        justify-content: center;
+        gap: 2px 18px;
+        width: 100%;
+    }
+    .site-nav a {
+        font-size: 14px;
+        padding: 6px 0;
+    }
+
+    .container {
+        padding: 12px 16px 0;
+    }
+
+    .section {
+        margin-top: 28px;
+    }
+    .section-title {
+        font-size: 20px;
+        margin-bottom: 14px;
+    }
+    .section-title img {
+        width: 26px;
+        height: 26px;
+    }
+
+    /* 最新消息 */
+    .news-card {
+        padding: 4px 20px;
+        border-radius: 20px;
+        margin-bottom: 14px;
+    }
+    .news-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        padding: 14px 0;
+    }
+    .news-text {
+        width: 100%;
+    }
+    .news-title {
+        font-size: 16px;
+        margin-bottom: 6px;
+        /* 標題最多顯示兩行，完整內容點開彈窗即可看到 */
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        overflow: hidden;
+    }
+    .news-meta {
+        font-size: 12px;
+    }
+    .news-image {
+        display: none;
+    }
+
+    /* 工作按鈕 */
+    .work-buttons {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .work-btn {
+        padding: 18px 16px;
+        font-size: 15px;
+    }
+
+    /* Footer */
+    .site-footer {
+        padding: 40px 0 24px;
+    }
+    .footer-brand {
+        padding: 32px 0;
+    }
+
+    /* 彈窗：手機上留更多內容空間 */
+    .modal-overlay {
+        padding: 16px;
+    }
+    .modal {
+        padding: 32px 20px 24px;
+        border-radius: 20px;
+        max-height: 88vh;
+        max-height: 88dvh;
+    }
+    .modal-close {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+    }
+    .modal-title {
+        font-size: 19px;
+        margin-bottom: 14px;
+        padding-right: 36px;
+    }
+    .modal-meta {
+        margin-bottom: 16px;
+    }
+    .modal-body {
+        font-size: 15px;
+        line-height: 1.75;
+    }
+}
+
+/* 小手機（iPhone SE / 360px 寬 Android） */
+@media (max-width: 420px) {
+    .site-nav {
+        gap: 0 14px;
+    }
+    .site-nav a {
+        font-size: 13px;
+    }
+    .header-inner,
+    .container {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+    .news-card {
+        padding: 2px 16px;
+    }
+}
+
+/* 使用者在系統設定中選擇「減少動態效果」時，關閉位移動畫 */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }

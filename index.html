@@ -9,24 +9,24 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
-  <!-- Header -->
-
-  <main class="container">
-    <header class="site-header">
-      <div class="header-inner">
-        <a href="/">
+  <!-- Header（移出 main，與其他頁面結構一致，sticky 才能正常運作） -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/">
         <div class="brand">
           <img src="logo.png" class="logo" alt="三年級學生代表" />
         </div>
-        </a>
-        <nav class="site-nav">
-          <a href="javascript:void(0)" class="active">首頁</a>
-          <a href="about">關於我們</a>
-          <a href="javascript:alert('尚在開發中，敬請期待！')">關於視覺識別</a>
-          <a href="https://tschool.tp.edu.tw" target="_blank">關於臺北市數位實驗高中</a>
-        </nav>
-      </div>
-    </header>
+      </a>
+      <nav class="site-nav">
+        <a href="javascript:void(0)" class="active">首頁</a>
+        <a href="about">關於我們</a>
+        <a href="javascript:alert('尚在開發中，敬請期待！')">關於視覺識別</a>
+        <a href="https://tschool.tp.edu.tw" target="_blank">關於臺北市數位實驗高中</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
     <!-- Latest News -->
     <section class="section">
       <h2 class="section-title"><img src="symbol.webp" alt="最新消息" />最新消息</h2>

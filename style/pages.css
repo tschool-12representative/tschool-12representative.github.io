@@ -157,6 +157,8 @@ h1 img {
   font-family: inherit;
   font-size: 15px;
   font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
   color: var(--text-main);
   cursor: pointer;
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
@@ -290,7 +292,10 @@ h1 img {
 /* 長條圖 */
 .bar-chart { display: flex; flex-direction: column; gap: 12px; }
 .bar-row { display: grid; grid-template-columns: 88px 1fr 40px; align-items: center; gap: 10px; }
-.bar-row .bar-lbl { font-size: 13px; color: var(--text-soft); }
+.bar-row .bar-lbl {
+  font-size: 13px; color: var(--text-soft);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; /* 類別名稱過長時以…收尾 */
+}
 .bar-track {
   height: 16px;
   background: rgba(255, 255, 255, 0.55);
@@ -339,7 +344,7 @@ h1 img {
 .proposal-item .p-top {
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px;
 }
-.proposal-item .p-title { font-size: 16px; font-weight: 700; color: #555; }
+.proposal-item .p-title { font-size: 16px; font-weight: 700; color: #555; line-height: 1.5; min-width: 0; }
 .proposal-item .p-desc { font-size: 14px; line-height: 1.7; color: var(--text-main); }
 .proposal-item .p-result { font-size: 13px; color: var(--text-soft); margin-top: 8px; }
 
@@ -364,6 +369,7 @@ h1 img {
   background: rgba(255, 255, 255, 0.55);
   border: none; border-radius: 999px;
   padding: 8px 18px; font-family: inherit; font-size: 14px; font-weight: 600;
+  line-height: 1.4; white-space: nowrap;
   color: var(--text-main); cursor: pointer;
   transition: transform 0.18s ease, background 0.18s ease;
 }
@@ -380,7 +386,7 @@ h1 img {
 
 .proposal-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
   gap: 20px;
 }
 .pcard {
@@ -398,7 +404,7 @@ h1 img {
   box-shadow: 0 12px 28px rgba(120, 140, 160, 0.24);
 }
 .pcard .pc-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-.pcard .pc-title { font-size: 18px; font-weight: 700; color: #555; margin-bottom: 6px; }
+.pcard .pc-title { font-size: 18px; font-weight: 700; color: #555; line-height: 1.45; margin-bottom: 6px; text-wrap: balance; }
 .pcard .pc-desc { font-size: 14px; line-height: 1.65; color: var(--text-main); margin-bottom: 18px; flex-grow: 1; }
 
 /* 進度條（多段式節點） */
@@ -430,7 +436,7 @@ h1 img {
 
 .rep-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
   gap: 24px;
 }
 .rep-card {
@@ -453,7 +459,7 @@ h1 img {
   display: flex; align-items: center; justify-content: center;
   color: #fff; font-size: 30px; font-weight: 700;
 }
-.rep-card .rep-name { font-size: 22px; font-weight: 700; color: #555; }
+.rep-card .rep-name { font-size: 22px; font-weight: 700; color: #555; line-height: 1.35; }
 .rep-card .rep-role { font-size: 14px; color: var(--text-soft); margin-top: 3px; }
 .rep-card .rep-bio { font-size: 14px; line-height: 1.8; color: var(--text-main); margin-bottom: 22px; }
 
@@ -474,18 +480,110 @@ h1 img {
   padding: 14px 16px;
   display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
 }
-.pledge .pl-text { font-size: 14px; line-height: 1.6; color: var(--text-main); }
+.pledge .pl-text { font-size: 14px; line-height: 1.6; color: var(--text-main); min-width: 0; }
+.pledge .badge { flex-shrink: 0; }
 .pledge .pl-text b { font-weight: 700; color: #555; display:block; margin-bottom: 2px; }
 
-@media (max-width: 720px) {
-  .pledge-list { display: none; }
-  .subhead {display: none;}
+/* ============================================================
+   Responsive（RWD）
+   ============================================================ */
+
+/* 鍵盤操作焦點框 */
+.tab-btn:focus-visible,
+.filter-btn:focus-visible,
+.record-link:focus-visible,
+.rep-links a:focus-visible {
+  outline: 2px solid #8fbfe0;
+  outline-offset: 3px;
 }
 
-/* ---------- Responsive ---------- */
+/* 觸控裝置：取消 hover 位移（避免點完卡在浮起狀態），改為按下回饋 */
+@media (hover: none) {
+  .tab-btn:hover,
+  .filter-btn:hover,
+  .pcard:hover,
+  .rep-links a:hover { transform: none; }
+  .pcard:hover { box-shadow: 0 6px 18px rgba(120, 140, 160, 0.14); }
+
+  .tab-btn:active,
+  .filter-btn:active,
+  .rep-links a:active,
+  .record-link:active { transform: scale(0.96); }
+}
+
+/* 平板 */
+@media (max-width: 960px) {
+  .rep-card { padding: 28px 24px; }
+}
+
+/* 手機 */
 @media (max-width: 720px) {
-  .charts-row { grid-template-columns: 1fr; }
-  .page-hero { padding: 24px 22px; }
-  .page-hero h1 { font-size: 23px; }
+  /* 頁面標題：與內容左緣對齊（原本 22px 左右內距會錯位） */
+  .page-hero { padding: 20px 0 4px; margin-bottom: 16px; }
+  .page-hero h1 { font-size: 20px; }
+  .page-hero h1 img { width: 26px; height: 26px; }
+
+  .glass-card { padding: 20px 18px; border-radius: 20px; }
+
+  /* ---- 校務會議 ---- */
+  .tabs { gap: 8px; margin-bottom: 18px; }
+  .tab-btn { padding: 9px 18px; font-size: 14px; }
+
+  .meeting-head { gap: 12px; margin-bottom: 14px; }
+  .meeting-head .m-date { font-size: 18px; line-height: 1.4; }
+  .record-link { padding: 8px 14px; font-size: 13px; }
+
+  .subhead { display: none; }
+
+  .pledge-list { display:none; }
+
+  /* 統計卡固定 2 欄，避免手機上 4 張卡直排過長 */
+  .stat-grid,
+  .dash-summary { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-card { padding: 14px 10px; }
+  .stat-card .num { font-size: 26px; }
+  .stat-card .lbl { font-size: 12px; margin-top: 6px; }
+
+  .rep-chip { font-size: 13px; }
+
+  .charts-row { grid-template-columns: 1fr; gap: 24px; }
   .bar-row { grid-template-columns: 70px 1fr 34px; }
+  .donut-wrap { justify-content: center; }
+
+  .proposal-item { padding: 14px 14px; }
+  .proposal-item .p-title { font-size: 15px; flex-basis: 100%; } /* 標題獨佔一行，標籤排在下方 */
+  .proposal-item .p-desc { font-size: 14px; line-height: 1.75; }
+
+  /* ---- 提案進度儀表板 ---- */
+  .filter-row { gap: 6px; margin-bottom: 18px; }
+  .filter-btn { padding: 8px 15px; font-size: 13px; }
+  .dash-summary { margin-bottom: 18px; }
+
+  .proposal-grid { gap: 14px; }
+  .pcard { padding: 18px 18px; border-radius: 20px; }
+  .pcard .pc-title { font-size: 17px; }
+  .pcard .pc-desc { line-height: 1.75; margin-bottom: 14px; }
+  .progress-steps { font-size: 11px; } /* 原 10px 在手機上過小 */
+
+  /* ---- 關於我們 ---- */
+  .rep-grid { gap: 16px; }
+  .rep-card { padding: 24px 20px; border-radius: 20px; }
+  .rep-card .rep-top { gap: 14px; margin-bottom: 14px; }
+  .rep-photo { width: 72px; height: 72px; font-size: 24px; }
+  .rep-card .rep-name { font-size: 20px; }
+  .rep-card .rep-role { font-size: 13px; }
+  .rep-card .rep-bio { line-height: 1.85; margin-bottom: 18px; }
+  .rep-links { margin-bottom: 18px; }
+  .pledge { padding: 12px 14px; }
+}
+
+/* 小手機 */
+@media (max-width: 420px) {
+  .glass-card { padding: 18px 14px; }
+  .tab-btn { padding: 8px 15px; }
+  .stat-card .num { font-size: 24px; }
+  .bar-row { grid-template-columns: 60px 1fr 28px; gap: 8px; }
+  .donut { width: 116px; height: 116px; }
+  .pcard { padding: 16px; }
+  .progress-steps { font-size: 10.5px; }
 }
