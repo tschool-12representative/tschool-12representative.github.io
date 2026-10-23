@@ -533,10 +533,6 @@ h1 img {
   .meeting-head .m-date { font-size: 18px; line-height: 1.4; }
   .record-link { padding: 8px 14px; font-size: 13px; }
 
-  .subhead { display: none; }
-
-  .pledge-list { display:none; }
-
   /* 統計卡固定 2 欄，避免手機上 4 張卡直排過長 */
   .stat-grid,
   .dash-summary { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -574,7 +570,9 @@ h1 img {
   .rep-card .rep-role { font-size: 13px; }
   .rep-card .rep-bio { line-height: 1.85; margin-bottom: 18px; }
   .rep-links { margin-bottom: 18px; }
-  .pledge { padding: 12px 14px; }
+  .pledge { padding: 12px 14px; align-items: center; } /* 只剩標題時，狀態徽章與標題垂直置中 */
+  .pledge .pl-desc { display: none; }                   /* 手機只顯示政見標題與狀態 */
+  .pledge .pl-text b { margin-bottom: 0; }
 }
 
 /* 小手機 */
