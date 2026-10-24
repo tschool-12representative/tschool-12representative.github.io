@@ -431,6 +431,34 @@ h1 img {
 }
 .progress-steps span { flex: 1; text-align: center; position: relative; }
 .progress-steps span.reached { color: #5a8a6a; font-weight: 700; }
+.progress-steps span.current { color: #3f7a52; text-decoration: underline; text-underline-offset: 3px; }
+
+/* 終止狀態（取消／失敗）：以文字說明取代步驟 */
+.progress-note { margin-top: 10px; font-size: 12px; color: var(--text-soft); text-align: center; }
+.pcard.is-fail .progress-note { color: #b06262; }
+.pcard.is-closed .pc-title,
+.pcard.is-closed .pc-desc { opacity: 0.75; }
+
+/* 依階段分行（預備中 / 進行中 / 完結 / 取消／失敗） */
+.dash-group { margin-bottom: 8px; }
+.dash-group:first-child .dash-group-head { margin-top: 0; }
+.dash-count {
+  font-size: 12px; font-weight: 700; color: #6a7a80;
+  background: rgba(255, 255, 255, 0.65);
+  padding: 1px 9px; border-radius: 999px;
+}
+
+/* 可摺疊的行（取消／失敗） */
+details.dash-group > summary {
+  cursor: pointer; list-style: none; user-select: none; width: fit-content;
+}
+details.dash-group > summary::-webkit-details-marker { display: none; }
+details.dash-group > summary::after {
+  content: "展開 ▾"; font-size: 12px; font-weight: 600; color: var(--text-soft);
+}
+details.dash-group[open] > summary::after { content: "收合 ▴"; }
+details.dash-group > summary:focus-visible { outline: 2px solid #8fbfe0; outline-offset: 3px; border-radius: 6px; }
+details.dash-group[open] > .proposal-grid { animation: fadeUp 0.28s ease; }
 
 /* ============================================================
    關於我們（about.html）
@@ -556,6 +584,7 @@ h1 img {
   .filter-row { gap: 6px; margin-bottom: 18px; }
   .filter-btn { padding: 8px 15px; font-size: 13px; }
   .dash-summary { margin-bottom: 18px; }
+  .dash-summary .stat-card:first-child { grid-column: span 2; } /* 5 張卡：總數獨佔一列，其餘 2×2 */
 
   .proposal-grid { gap: 14px; }
   .pcard { padding: 18px 18px; border-radius: 20px; }

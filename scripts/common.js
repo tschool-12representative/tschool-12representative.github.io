@@ -15,13 +15,87 @@ window.STATUS = {
   review:  { label: "審議", cls: "s-review",  order: 3 },
   exec:    { label: "執行", cls: "s-exec",    order: 4 },
   done:    { label: "完結", cls: "s-done",    order: 5 },
+  // 非提案工作（活動 / 一般工作）使用的狀態
+  prep:    { label: "預備", cls: "s-draft",   order: 0 },
+  plan:    { label: "籌備", cls: "s-draft",   order: 0 },
+  promo:   { label: "宣傳", cls: "s-propose", order: 1 },
   // 終止狀態（不算在正常流程百分比內）
   cancel:  { label: "取消", cls: "s-cancel",  order: -1 },
   fail:    { label: "失敗", cls: "s-fail",    order: -2 },
 };
 
-/* 進度條正常流程的步驟順序 */
+/* 進度條正常流程的步驟順序（提案） */
 window.PROGRESS_STEPS = ["draft", "discuss", "propose", "review", "exec", "done"];
+
+/* ---------- 工作階段（儀表板分行用） ----------
+   每個狀態歸屬一個階段；collapsed 表示該行預設摺疊。          */
+window.PHASES = [
+  { key: "prep",   label: "預備中",    statuses: ["draft", "prep", "plan"] },
+  { key: "active", label: "進行中",    statuses: ["discuss", "propose", "review", "promo", "exec"] },
+  { key: "done",   label: "完結",      statuses: ["done"] },
+  { key: "closed", label: "取消／失敗", statuses: ["cancel", "fail"], collapsed: true },
+];
+
+window.phaseOf = function (statusKey) {
+  var ph = window.PHASES.find(function (x) { return x.statuses.indexOf(statusKey) > -1; });
+  return ph ? ph.key : "prep";
+};
+
+/* ---------- 進度流程（依工作類型） ----------
+   每一步列出「落在這一步」的狀態 key；
+   不在流程內的狀態，會依其階段對應到預備（第一步）/進行（中段）/完結。 */
+window.FLOWS = {
+  proposal: {
+    name: "提案",
+    steps: [
+      { label: "草擬", keys: ["draft", "prep", "plan"] },
+      { label: "討論", keys: ["discuss"] },
+      { label: "提案", keys: ["propose"] },
+      { label: "審議", keys: ["review"] },
+      { label: "執行", keys: ["exec", "promo"] },
+      { label: "完結", keys: ["done"] },
+    ],
+  },
+  event: {
+    name: "活動",
+    steps: [
+      { label: "籌備", keys: ["draft", "prep", "plan", "discuss", "propose", "review"] },
+      { label: "宣傳", keys: ["promo"] },
+      { label: "舉辦", keys: ["exec"] },
+      { label: "完結", keys: ["done"] },
+    ],
+  },
+  general: {
+    name: "工作",
+    steps: [
+      { label: "預備", keys: ["draft", "prep", "plan"] },
+      { label: "進行", keys: ["discuss", "propose", "review", "promo", "exec"] },
+      { label: "完結", keys: ["done"] },
+    ],
+  },
+};
+
+/* 判斷工作屬於哪種流程：
+   有填「類型」欄就依類型判斷；沒填時，類別為「活動」視為活動，其餘視為提案。 */
+window.flowOf = function (item) {
+  var t = item.type || "";
+  if (t) {
+    if (t.indexOf("活動") > -1) return "event";
+    if (t.indexOf("提案") > -1 || t.indexOf("會議") > -1) return "proposal";
+    return "general";
+  }
+  return item.cat === "活動" ? "event" : "proposal";
+};
+
+/* 回傳目前狀態在流程中的步驟索引（0 起算） */
+window.flowStepIndex = function (flow, statusKey) {
+  var idx = flow.steps.findIndex(function (s) { return s.keys.indexOf(statusKey) > -1; });
+  if (idx > -1) return idx;
+  var ph = window.phaseOf(statusKey);
+  if (ph === "done") return flow.steps.length - 1;
+  if (ph === "active") return Math.max(1, flow.steps.length - 2);
+  return 0;
+};
 
 /* 政見狀態（關於我們用）：預備 / 執行 / 完結 / 取消 / 失敗 */
 window.PLEDGE_STATUS = {
@@ -43,7 +117,6 @@ window.CATEGORY = {
   "資訊": "var(--cat-info)",
   "學生會":  "var(--cat-su)",
   "其他":  "var(--cat-other)",
-
 };
 
 /* 中文值 → 內部 key 的容錯對應（讓試算表可直接填中文） */
@@ -60,6 +133,9 @@ window.normalizeStatus = function (raw) {
     "取消": "cancel", "cancel": "cancel",
     "失敗": "fail", "fail": "fail",
     "預備": "prep", "prep": "prep",
+    "籌備": "plan", "規劃": "plan", "plan": "plan",
+    "宣傳": "promo", "報名": "promo", "promo": "promo",
+    "舉辦": "exec",
   };
   return map[v] || map[String(raw).trim()] || "draft";
 };
