@@ -38,9 +38,12 @@ window.CATEGORY = {
   "課務":  "var(--cat-academic)",
   "成績":  "var(--cat-grade)",
   "生活":  "var(--cat-life)",
-  "設備":  "var(--cat-facility)",
+  "制度":  "var(--cat-facility)",
+  "活動": "var(--cat-event)",
+  "資訊": "var(--cat-info)",
   "學生會":  "var(--cat-su)",
   "其他":  "var(--cat-other)",
+
 };
 
 /* 中文值 → 內部 key 的容錯對應（讓試算表可直接填中文） */
