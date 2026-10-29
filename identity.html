@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>關於視覺識別｜三年級學生代表</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="style/pages.css" />
+  <link rel="stylesheet" href="style/identity.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <!-- 有 JS 才隱藏待進場的區塊，JS 失效時內容仍會正常顯示 -->
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/">
+        <div class="brand">
+          <img src="logo.png" class="logo" alt="三年級學生代表" />
+        </div>
+      </a>
+      <nav class="site-nav">
+        <a href="/">首頁</a>
+        <a href="about">關於我們</a>
+        <a href="javascript:void(0)" class="active">關於視覺識別</a>
+        <a href="https://tschool.tp.edu.tw" target="_blank">關於臺北市數位實驗高中</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-hero">
+      <h1><img src="symbol.webp" alt="關於視覺識別" />關於視覺識別</h1>
+    </div>
+
+    <!-- ---------- 主視覺：標誌 ---------- -->
+    <section class="id-hero glass-card reveal" aria-label="識別標誌">
+      <!-- 背景柔光：取自標誌三色 -->
+      <span class="id-orb orb-teal" aria-hidden="true"></span>
+      <span class="id-orb orb-green" aria-hidden="true"></span>
+      <span class="id-orb orb-gray" aria-hidden="true"></span>
+
+      <div class="id-hero-mark">
+        <!-- 大尺寸展示建議用 SVG；找不到檔案時自動改用 symbol.webp -->
+        <img src="identity/logomark.svg" alt="三年級學生代表識別標誌" />
+      </div>
+      <div class="id-hero-text">
+        <p class="id-eyebrow">Logomark</p>
+        <h2 class="id-hero-title">三年級學生代表視覺識別標誌</h2>
+        <p class="id-hero-desc">
+          文字文字文字
+        </p>
+        <!-- 色票：點一下即可複製色碼 -->
+        <ul class="id-swatches" aria-label="標準色">
+          <li><button type="button" class="swatch" data-hex="#83c3d7" style="--sw:#83c3d7"><span class="sw-dot"></span><span class="sw-hex">#83C3D7</span></button></li>
+          <li><button type="button" class="swatch" data-hex="#73bd98" style="--sw:#73bd98"><span class="sw-dot"></span><span class="sw-hex">#73BD98</span></button></li>
+          <li><button type="button" class="swatch" data-hex="#c4c4c4" style="--sw:#c4c4c4"><span class="sw-dot"></span><span class="sw-hex">#C4C4C4</span></button></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 段落快速跳轉 
+    <nav class="id-jump reveal" aria-label="本頁段落">
+      <a href="#elements">設計元素</a>
+      <a href="#guideline">識別系統規範</a>
+      <a href="#lockup">Logo Lockup</a>
+    </nav>-->
+
+    <!-- ---------- 五個設計元素 ---------- -->
+    <section class="section id-section" id="elements">
+      <h2 class="section-title"><img src="symbol.webp" alt="" />設計元素</h2>
+      <!-- 內容由 scripts/identity.js 的 ELEMENTS 產生 -->
+      <div class="el-grid" id="elementGrid"></div>
+    </section>
+
+    <!-- ---------- 視覺識別系統規範 ---------- -->
+    <section class="section id-section" id="guideline">
+      <h2 class="section-title"><img src="symbol.webp" alt="" />視覺識別系統規範</h2>
+      <div class="guide-card glass-card reveal">
+        <div class="guide-info">
+          <p class="id-eyebrow">VIS Guideline</p>
+          <h3 class="guide-title">視覺識別系統規範</h3>
+          <p class="guide-desc">
+            關於視覺識別標誌的組合、規格、使用方式、色彩規範與指定字型等。在使用視覺視覺標誌前，請務必記得閱讀這份規範。<br /><br />
+            本視覺識別系統適用創用 CC 4.0 BY-NC-ND（姓名標示 - 非商業性 - 禁止改作）授權。
+          </p>
+          <div class="guide-actions">
+            <a class="guide-btn primary" href="https://drive.google.com/file/d/17OskV9jWClqW2xKwt9f7XXGFuq3uR0zM/view?usp=drivesdk" target="_blank" rel="noopener">開啟完整規範</a>
+          </div>
+        </div>
+        <div class="guide-preview">
+          <iframe
+            src="https://drive.google.com/file/d/17OskV9jWClqW2xKwt9f7XXGFuq3uR0zM/preview"
+            title="視覺識別系統規範預覽"
+            loading="lazy"
+            allow="autoplay"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- Logo Lockup（亮底 / 暗底） ---------- -->
+    <section class="section id-section" id="lockup">
+      <h2 class="section-title"><img src="symbol.webp" alt="" />Logo 下載</h2>
+      <div class="lockup-grid">
+        <figure class="lockup lockup-light lockup-wide reveal">
+          <div class="lockup-stage">
+            <img src="identity/lockup-light.png" data-fallback="logo.png" alt="標誌與標準字（亮色底，深色字）" />
+          </div>
+          <figcaption>
+            <span class="lockup-name">亮色底</span>
+            <!--<span class="lockup-note"></span>-->
+            <span class="lockup-files">
+              <a href="identity/lockup-light.png" download>PNG</a>
+              <a href="identity/lockup-light.svg" download>SVG</a>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="lockup lockup-dark lockup-wide reveal">
+          <div class="lockup-stage">
+            <img src="identity/lockup-dark.png" alt="標誌與標準字（暗色底，白色字）" />
+          </div>
+          <figcaption>
+            <span class="lockup-name">暗色底</span>
+            <!--<span class="lockup-note"></span>-->
+            <span class="lockup-files">
+              <a href="identity/lockup-dark.png" download>PNG</a>
+              <a href="identity/lockup-dark.svg" download>SVG</a>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="lockup lockup-light reveal">
+          <div class="lockup-stage">
+            <img src="identity/logo-circle-dark.png" data-fallback="logo.png" alt="標誌與標準字（亮色底，深色字）" />
+          </div>
+          <figcaption>
+            <span class="lockup-name">暗色圓底</span>
+            <!--<span class="lockup-note"></span>-->
+            <span class="lockup-files">
+              <a href="identity/logo-circle-dark.png" download>PNG</a>
+              <a href="identity/logo-circle-dark.svg" download>SVG</a>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="lockup lockup-dark reveal">
+          <div class="lockup-stage">
+            <img src="identity/logo-circle-white.png" alt="標誌（白色圓底）" />
+          </div>
+          <figcaption>
+            <span class="lockup-name">白色圓底</span>
+            <!--<span class="lockup-note"></span>-->
+            <span class="lockup-files">
+              <a href="identity/logo-circle-white.png" download>PNG</a>
+              <a href="identity/logo-circle-white.svg" download>SVG</a>
+            </span>
+          </figcaption>
+        </figure>
+        
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-brand"><!--原放置 Logo--></div>
+  </footer>
+
+  <!-- 複製色碼提示 -->
+  <div class="id-toast" id="idToast" role="status" aria-live="polite"></div>
+
+  <script src="scripts/identity.js"></script>
+</body>
+</html>
